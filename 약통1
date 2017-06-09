@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>약통의 달인 게임</title>
+ <style>
+  #board {
+   border: 1px solid black;
+   background-color: greenyellow;
+   height: 350px;
+   width: 1000px;
+  }
+  .character {
+   background: url('분수카드.jpg');
+   background-size: cover;
+   background-color: lightblue;
+   width: 120px;
+   height: 120px;
+   padding: 10px;
+   margin: 10px;
+   float: left;
+  }
+  .thief {
+   background: url('분수2.jpg');
+   background-size: cover;
+  }
+  .hidden {
+   display: none;
+  }
+  .visible {
+   display: block;
+   }
+ </style>
+</head>
+<body>
+ <input type="button" value="약통의 달인되어 보기" onclick="startGame()";/>
+ <div style="margin: 5px; width: 59.5%; float: left; border: 6px solid red; padding: 23px; text-align: center; font-size: 20pt;">
+  <p>아래를 보고 기약분수가 아닌 분수를 선택하기</p><br/>
+  <p>맞으면 +1<br/> 틀리면 -2<p>
+  <p>(한 문제 당, 제한 시간 3초)</p>
+  </div>
+  <div id="board1">
+  <div class="character"><img src="3_6.jpg"/></div>
+  </div>
+ <div id="board">
+  <div class="character"></div>
+  <div class="character"></div>
+  <div class="character"></div>
+  <div class="character"></div>
+  <div class="character"></div>
+  <div class="character"><img src="1_2.jpg"/></div>
+ </div>
+ <script>
+  function startGame() {
+   gameLoop();
+  }
+  var loops = 0;
+  var peopleVisible = false;
+  var gameScore = 0;
+  function gameLoop() {
+   peopleVisible = !peopleVisible;
+   createCharacters();
+   loops++;
+   if(loops < 12) {
+    setTimeout(gameLoop, 3000);
+   }
+   else {
+    alert("점수는 " + gameScore);
+   }
+ }
+  function createCharacters() {
+   var board = document.getElementById("board");
+   var classToSet = peopleVisible ? "character visible" : "character hidden";
+   for(var index = 0; index < 2; index ++) {
+	   board.children[index].className = classToSet;
+	   board.children[index].innerHTML = "";
+	   board.children[index].onclick = function() {
+		gameScore += -2;
+	   }
+   }
+   var randomNumber = Math.floor(Math.random() * 2) + 1;
+  	 board.children[randomNumber-1].innerHTML = "";
+	 board.children[randomNumber-1].onclick = function() {
+	    gameScore++;
+	 }
+   board.children[randomNumber-1].className = classToSet + " thief";
+  }
+ </script>
+</body>
+</html>
